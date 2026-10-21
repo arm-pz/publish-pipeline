@@ -1,0 +1,9 @@
+{
+  "name": "publish-pipeline",
+  "version": "0.1.0",
+  "description": "Sets up and repairs a PR-gated CI/CD pipeline that publishes a collection of agent skills to a Cloudflare Pages site, with a generated page per skill, discovery that proposes pull requests, and verification gates on both sides of the deploy.",
+  "author": {
+    "name": "Abdul Rahman P Z"
+  },
+  "repository": "https://github.com/arm-pz/publish-pipeline"
+}
