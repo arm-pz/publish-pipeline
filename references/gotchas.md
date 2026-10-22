@@ -37,6 +37,9 @@ Behaviour that silently produces a green-looking, wrong result.
 
 - `gh` on PATH may be an unrelated npm package that crashes. Use the GitHub CLI by full path
   (`C:\Program Files\GitHub CLI\gh.exe`) or a shell alias.
+- A Python subprocess that runs bare `bash` on Windows can resolve to the WSL stub, which fails with
+  `execvpe(/bin/bash): No such file or directory` and a bare non-zero exit. Resolve Git's
+  `bin/bash.exe` explicitly when a gate script shells out.
 - `gh secret set` is reported broken here; hand the user the Settings → Secrets → Actions path
   instead of a command that will fail.
 - `npx wrangler` can fail with `EBUSY` on the default npm cache. Use a clean cache:
