@@ -43,6 +43,11 @@ returns forks too) and prints a table:
 Forks are listed and fail clause 7; they are not dropped from the report. Write the same table into
 the job summary. Report mode never edits the manifest, a branch, or a PR.
 
+`--only name[,name]` scopes a run to named repos and errors on a name it cannot find among the
+owner's public repos. Use it when one skill must be proved through the pipeline without proposing
+every other eligible repo in the same PR. CI runs without it, so a scheduled run still proposes the
+full eligible set.
+
 ## Proposal mode
 
 `discover --propose` is the only mode that writes. Skip, before doing any work:
