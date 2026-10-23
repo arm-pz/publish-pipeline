@@ -7,13 +7,13 @@ description: >-
   wants a new skill repo to appear on the site with its own page, asks why a
   skill is missing or its page is stale, or needs a red publish run diagnosed
   and a bad deploy rolled back. It installs one GitHub Actions workflow with
-  check, publish and discover jobs, a committed manifest as the publication
-  decision, generated hub rows, discovery indexes, sitemap and pages, and
-  verification gates on both sides of the deploy. Not for releasing one skill
+  check and publish jobs, a review-PR or auto-sync publication gate, generated
+  hub rows, discovery indexes, sitemap and pages, and gates on both sides of
+  the deploy. Not for releasing one skill
   through the marketplace, tarball or plugin channels (use
   publish-release-gate), checking unpushed work or listing drift (use
   upstream-check), deciding whether a build is safe to launch (use
-  release-gate), or writing and tuning a skill (use draft-skill or
+  release-gate-chair), or writing and tuning a skill (use draft-skill or
   tune-skill).
 ---
 
@@ -24,9 +24,17 @@ generators, the gates, and the recovery path. It does not own one skill's releas
 marketplace or tarball channels (`publish-release-gate`), or page copy and visibility audits
 (`findable`).
 
-The rule the whole design rests on: **a pushed skill is not a published skill.** Discovery opens a
-pull request; a human merges it; that merge is the publication decision and the deploy trigger.
-Anything that skips the pull request is a bug, not a shortcut.
+The rule the whole design rests on: **the owner chooses the publication gate, once, in writing.**
+There are two, and `references/design.md` records which one a site runs:
+
+- **review** (the default): a pushed skill is not a published skill. Discovery opens a pull request;
+  a human merges it; that merge is the publication decision and the deploy trigger.
+- **auto**: a public repo that passes the shape test is the publication decision. An hourly sync
+  adds it, refreshes generated pages whose repo moved, follows renames with 301 redirects and drops
+  repos that went away; every gate still has to pass before the deploy, and the sync is committed
+  back only after the live proof.
+
+Never switch a site between them on your own judgement, and never mix them in one workflow.
 
 Worked example: `arm-pz/skills-site` → Cloudflare Pages project `skills` →
 `https://skills.caffeinity.com`. The reasons behind the design are in `references/design.md`. The
@@ -125,7 +133,7 @@ in `references/workflow.md`.
 run the check itself before opening the PR. The repository must also allow Actions to create pull
 requests.
 
-## 5. Make discovery propose, never publish
+## 5. Make discovery propose, or sync in auto mode
 
 The shape test decides eligibility; the manifest decides publication. The eight clauses, the
 explicit-path test and the proposal workflow are in `references/shape-test.md`. The load-bearing
@@ -136,6 +144,18 @@ A proposal PR contains: the manifest entry, the generated page, the regenerated 
 digest, measured stats, the install command, the auto-assigned group and tag, and a checklist for
 the reviewer. Run the full local gate before pushing; if it fails, open no PR and report why.
 Never deploy from the discover job and never give it a Cloudflare secret.
+
+In **auto** mode there is no proposal: `sync.py --write` runs at the start of the publish job and
+applies five actions: add, refresh, rename, remove, hold. Rules that keep it safe:
+
+- An unreadable repo stops the run; only an explicit Not Found (or a repo that turned private)
+  removes an entry.
+- A rename keeps the hand-written copy, moves the page folder, records the old name as an alias,
+  and `_redirects` sends the old page and archive URLs to the new ones. A bespoke page is moved,
+  never edited; the run reports that its copy may still use the old name.
+- An empty About or a failed shape test is held and reported, never published with a guess.
+- Deploy only when `dist/version.json` (a hash over the built tree) differs from the live one, so
+  an hourly schedule does not redeploy an unchanged site.
 
 ## 6. Untrack build outputs only after CI reproduces them
 
@@ -196,7 +216,8 @@ Until all three have run in the target repo, describe the pipeline as unproven.
 - An empty repo About is a build failure, not a fallback to the last description.
 - A legacy archive whose sha256 does not match is a build failure.
 - Two surfaces that must agree are never patched into agreement; fix the input and regenerate both.
-- Never overwrite a `page: bespoke` file, and never create a page outside a reviewed PR.
+- Never overwrite a `page: bespoke` file. In review mode, never create a page outside a reviewed
+  PR; in auto mode, only the sync creates pages, and only inside a run whose gates all passed.
 - Never publish a repo in `site/deny.json`, and never remove a denial without the user's decision.
 
 ## References
