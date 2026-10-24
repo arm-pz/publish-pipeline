@@ -68,13 +68,15 @@ publish job runs hourly (`17 * * * *`), on push to `main`, on manual dispatch an
 1. `sync.py --write` — add, refresh, rename, remove or hold, then regenerate the hub and pages.
 2. Unit tests, generated-surface checks, build, sitemap (also writes `out/_redirects`), dist (also
    writes `dist/version.json`), `check_dist.py`, `verify.mjs local`: the same gates as review mode.
-3. Compare `dist/version.json` with the live one; skip the deploy when they match and nothing
-   changed in git. Never compare the live HTML: the CDN may inject markup into it.
-4. Deploy, `verify.mjs` live and `prove.py`.
-5. Commit the sync to `main` as `github-actions[bot]` (`git pull --rebase` first). A push made with
+3. Commit the sync to `main` as `github-actions[bot]` (`git pull --rebase` first). A push made with
    `GITHUB_TOKEN` does not start another run, so this cannot loop.
-6. Optionally dispatch `skills-updated` to the profile repo with a fine-grained token, so its README
-   block refreshes at once instead of on its own schedule.
+4. Compare `dist/version.json` with the live one. Never compare the live HTML: the CDN may inject
+   markup into it. Then, by where `references/design.md` says deploys run:
+   - **CI deploys:** deploy when they differ, then `verify.mjs` live and `prove.py`.
+   - **Owner deploys** (arm-pz/skills-site since 2026-10-24): no Cloudflare credentials in CI.
+     Keep one "Deploy pending" issue open while they differ and close it once they match; the
+     owner runs `tools/agent-skills/deploy.sh` locally, which refuses anything but a clean, current
+     `origin/main`, runs the same gates, deploys with their own wrangler login and proves the result.
 
 The worked implementation is `arm-pz/skills-site` `.github/workflows/publish.yml`, plus a nightly
 `health.yml` that runs tune-skill's `regress.py` over every published skill and opens an issue on a
