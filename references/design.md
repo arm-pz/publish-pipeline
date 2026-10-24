@@ -25,6 +25,7 @@ rejected.
 | **2026-10-23: publication gate** | **auto** for `arm-pz/skills-site`, replacing the proposal PR. | The owner asked that anything with a SKILL.md live on the profile reach the site without a manual merge. The shape test, deny list and every build and live gate still apply. |
 | 2026-10-23: discovery and deploy trigger | Hourly sync in the publish job; `repository_dispatch` (`skill-updated`) for an immediate run. | Hourly bounds the delay without a PAT in every repo; a repo that has a token can dispatch sooner. |
 | 2026-10-23: generated-page refresh | On every sync when the repo HEAD moved; hand-written blurb, title and group are kept. | A page that shows a stale file list or commit is a wrong claim once publishing is automatic. |
+| **2026-10-24: deploy location** | **The owner's machine** for `arm-pz/skills-site`: `deploy.sh` with their own `wrangler login`. CI keeps the sync and every gate, holds no Cloudflare credentials, and keeps a "Deploy pending" issue open while live is behind. | The owner does not want Cloudflare secrets in GitHub. The cost is that a merged change goes live when the owner deploys, not on its own. |
 | 2026-10-23: renames | Follow the API redirect; alias plus `_redirects` 301s for the page and the archive. | findable can recommend a rename; the site must not 404 the old links or publish the skill twice. |
 
 ## Invariants

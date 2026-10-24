@@ -175,9 +175,12 @@ sitemap, `_headers`, `404.html`, and any `.well-known` roster.
 
 Do not perform these silently, and never write a secret into a file, a log, or a commit:
 
-- Paste `CLOUDFLARE_API_TOKEN` (Pages Read + Edit, scoped to the one project) and
-  `CLOUDFLARE_ACCOUNT_ID` into the repo's Actions secrets. `gh secret set` is reported broken on
-  this machine; give the exact Settings → Secrets path instead of pretending the CLI works.
+- Decide where deploys run, and record it in `references/design.md`. Either CI deploys, and the
+  owner pastes `CLOUDFLARE_API_TOKEN` (Pages Read + Edit, scoped to the one project) and
+  `CLOUDFLARE_ACCOUNT_ID` into the repo's Actions secrets (`gh secret set` is reported broken on
+  this machine; give the exact Settings → Secrets path), or CI holds no Cloudflare credentials and
+  the owner deploys from their own machine with `deploy.sh` and `npx wrangler login`. Never put a
+  token in the repo to make either work.
 - Enable "Allow GitHub Actions to create and approve pull requests".
 - Optionally require the `check` job on `main`.
 - Approve the first publish and the rollback drill.
