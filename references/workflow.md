@@ -59,6 +59,27 @@ question of which one won.
 
 The discover job never deploys and never receives the Cloudflare secrets.
 
+## Auto-mode publish steps
+
+Only when `references/design.md` records the **auto** gate. The `discover` job is removed; the
+publish job runs hourly (`17 * * * *`), on push to `main`, on manual dispatch and on
+`repository_dispatch` type `skill-updated`, with `contents: write`:
+
+1. `sync.py --write` — add, refresh, rename, remove or hold, then regenerate the hub and pages.
+2. Unit tests, generated-surface checks, build, sitemap (also writes `out/_redirects`), dist (also
+   writes `dist/version.json`), `check_dist.py`, `verify.mjs local`: the same gates as review mode.
+3. Compare `dist/version.json` with the live one; skip the deploy when they match and nothing
+   changed in git. Never compare the live HTML: the CDN may inject markup into it.
+4. Deploy, `verify.mjs` live and `prove.py`.
+5. Commit the sync to `main` as `github-actions[bot]` (`git pull --rebase` first). A push made with
+   `GITHUB_TOKEN` does not start another run, so this cannot loop.
+6. Optionally dispatch `skills-updated` to the profile repo with a fine-grained token, so its README
+   block refreshes at once instead of on its own schedule.
+
+The worked implementation is `arm-pz/skills-site` `.github/workflows/publish.yml`, plus a nightly
+`health.yml` that runs tune-skill's `regress.py` over every published skill and opens an issue on a
+regression.
+
 ## Check steps
 
 Tests, build, `gen_home.py --check`, sitemap generation, `make_dist`, `check_dist`, and
