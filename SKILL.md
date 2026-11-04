@@ -11,8 +11,8 @@ description: >-
   hub rows, discovery indexes, sitemap and pages, and gates on both sides of
   the deploy. Not for releasing one skill
   through the marketplace, tarball or plugin channels (use
-  publish-release-gate), checking unpushed work or listing drift (use
-  upstream-check), deciding whether a build is safe to launch (use
+  publish-release-gate), checking unpushed work (use upstream-check),
+  checking listing drift (use listing-drift), deciding whether a build is safe to launch (use
   release-gate-chair), or writing and tuning a skill (use draft-skill or
   tune-skill).
 ---

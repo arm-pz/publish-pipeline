@@ -25,7 +25,7 @@ a new session.
 - A deploy reported success and the live page is still the old one.
 
 It is not the publisher for one skill through the marketplace, tarball or plugin channels (that is
-`publish-release-gate`), not an unpushed-work or listing-drift audit (`upstream-check`), and not a
+`publish-release-gate`), not an unpushed-work audit (`upstream-check`) or a listing-drift audit (`listing-drift`), and not a
 launch go/no-go (`release-gate`).
 
 ## What it sets up
