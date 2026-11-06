@@ -15,6 +15,7 @@ description: >-
   upstream-check), deciding whether a build is safe to launch (use
   release-gate-chair), or writing and tuning a skill (use draft-skill or
   tune-skill).
+version: 1.0.0
 ---
 
 # Publish pipeline
