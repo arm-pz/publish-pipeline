@@ -2,7 +2,7 @@
 
 Written to the format in `tune-skill/references/test-cases.md`. The skill under test is
 `publish-pipeline`, judged from its `description` frontmatter only, as an agent deciding what to
-load would. Competing descriptions read for these cases: `publish-release-gate`, `upstream-check`,
+load would. Competing descriptions read for these cases: `publish-release-gate`, `upstream-check`, `listing-drift`,
 `release-gate`, `web-preflight`, `draft-skill`, `tune-skill`, `skill-launch`, and `findable`.
 
 **Run:** hand-run on 2026-10-20 against the descriptions only. No automated triggering loop was
@@ -21,7 +21,7 @@ run; none exists here.
 | 7 | "What haven't I pushed from these clones?" | upstream-check | publish-pipeline does not load | PASS ("Not for checking unpushed work") |
 | 8 | "Is the site safe to launch tonight?" | release-gate | publish-pipeline does not load | PASS ("Not for deciding whether a build is safe to launch") |
 | 9 | "Review this SKILL.md's trigger wording." | tune-skill | publish-pipeline does not load | PASS ("Not for writing and tuning a skill") |
-| 10 | "Why does the live site list more skills than GitHub has repos?" | upstream-check | publish-pipeline does not load; this is catalogue-vs-repos drift | PASS ("listing drift" clause; publish-pipeline owns manifest-vs-surfaces, not repo inventory) |
+| 10 | "Why does the live site list more skills than GitHub has repos?" | listing-drift | publish-pipeline does not load; this is catalogue-vs-repos drift | PASS ("listing drift" clause; publish-pipeline owns manifest-vs-surfaces, not repo inventory) |
 | 11 | "Make my new skill's site page more discoverable." | findable / findable-polish | publish-pipeline does not load | PASS: no "discoverability" claim in the description |
 
 ## Boundary pairs
@@ -31,7 +31,7 @@ run; none exists here.
 | "Deploy the skill site after I finish this skill" | publish-release-gate | one skill through the existing channels, manual |
 | "Make the site publish future skills automatically" | publish-pipeline | changes the machine, not one release |
 | "The manifest and the live hub disagree" | publish-pipeline | generator or deploy drift inside one surface set |
-| "The site lists skills GitHub no longer has" | upstream-check | catalogue against the repo inventory |
+| "The site lists skills GitHub no longer has" | listing-drift | catalogue against the repo inventory |
 | "Add this skill to the manifest" | publish-pipeline | admission is the manifest's job |
 | "Audit this skill's description" | tune-skill | the skill's behaviour, not the site |
 
