@@ -12,7 +12,7 @@ run; none exists here.
 
 | # | Message | Expected skill | Pass condition | Result |
 |---|---|---|---|---|
-| 1 | "Set up CI/CD so every new skill repo I push gets its own page on skills.caffeinity.com." | publish-pipeline | names the PR gate and the three jobs; does not start deploying | PASS ("CI/CD or automation for a skills site") |
+| 1 | "Set up CI/CD so every new skill repo I push gets its own page on skillsmith.tech." | publish-pipeline | names the PR gate and the three jobs; does not start deploying | PASS ("CI/CD or automation for a skills site") |
 | 2 | "My new skill has been on GitHub for two days and the site still doesn't list it." | publish-pipeline | audits discovery and the manifest before changing anything | PASS ("asks why a skill is missing") |
 | 3 | "The publish workflow went red after I added a skill. Fix it." | publish-pipeline | names the failing gate before editing | PASS ("needs a red publish run diagnosed") |
 | 4 | "The deploy said success but the new page is still the old one." | publish-pipeline | distinguishes deploy from live verification; uses a cache-buster | PASS ("its page is stale") |

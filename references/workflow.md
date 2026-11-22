@@ -177,8 +177,8 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler pages deploy dist --project-name skills --branch main | tee deploy.log
       - run: grep -Eo 'https://[a-z0-9.-]+\.pages\.dev' deploy.log | tail -1 >> "$GITHUB_STEP_SUMMARY"
-      - run: CACHE_BUST=${{ github.sha }} node tools/agent-skills/verify.mjs https://skills.caffeinity.com
-      - run: python tools/agent-skills/prove.py --site https://skills.caffeinity.com --bust "${{ github.sha }}"
+      - run: CACHE_BUST=${{ github.sha }} node tools/agent-skills/verify.mjs https://skillsmith.tech
+      - run: python tools/agent-skills/prove.py --site https://skillsmith.tech --bust "${{ github.sha }}"
 
   discover:
     if: >-

@@ -38,7 +38,7 @@ There are two, and `references/design.md` records which one a site runs:
 Never switch a site between them on your own judgement, and never mix them in one workflow.
 
 Worked example: `arm-pz/skills-site` → Cloudflare Pages project `skills` →
-`https://skills.caffeinity.com`. The reasons behind the design are in `references/design.md`. The
+`https://skillsmith.tech`. The reasons behind the design are in `references/design.md`. The
 machine was implemented there on 2026-10-21; its pull-request check job has run green, while the
 publish, rollback and discovery proofs have not. Report evidence you produced, not steps you
 believe would work.

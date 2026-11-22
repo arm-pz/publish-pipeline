@@ -1,7 +1,7 @@
 # Decisions and invariants
 
 Written 2026-10-20 for `arm-pz/skills-site` → Cloudflare Pages project `skills` →
-`https://skills.caffeinity.com`. The machine was implemented there on 2026-10-21; the pull-request
+`https://skillsmith.tech`. The machine was implemented there on 2026-10-21; the pull-request
 check job has run green, while publish, rollback and discovery proofs are still outstanding. When
 someone challenges a rule in `SKILL.md`, this file holds the reason or the alternative that was
 rejected.
