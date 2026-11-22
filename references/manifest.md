@@ -8,7 +8,7 @@ merged change to this file publishes one. `site/deny.json` is the durable veto l
 ```json
 {
   "schema": 1,
-  "site": "https://skills.caffeinity.com",
+  "site": "https://skillsmith.tech",
   "groups": [
     {
       "id": "writing-growth",
